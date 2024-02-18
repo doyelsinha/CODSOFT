@@ -1,0 +1,71 @@
+from tkinter import *
+from tkinter import messagebox
+
+def new_task():
+    task = my_entry.get()
+    if task != "":
+        lb.insert(END, task)
+        my_entry.delete(0, "end")
+    else:
+        messagebox.showwarning("Warning", "Please enter some task.")
+
+def delete_task():
+    lb.delete(ANCHOR)
+
+ws = Tk()
+ws.geometry('500x400+500+200')
+ws.title("TO_DO_LIST")
+ws.resizable(width=False, height=False)
+
+frame = Frame(ws)
+frame.pack(pady=10) 
+
+lb = Listbox(frame,
+             width=20,
+             height=8,
+             font=("Times", 14),
+             bd=0,
+             highlightthickness=0,
+             activestyle="none")
+
+lb.pack(side=RIGHT, fill=BOTH)
+
+task_list = ['Eat apple',
+             'Stay hydrated',
+             'Go through class notes',
+             'Do laundry',
+             'Sit with coding',
+             'Take breaks']
+
+for item in task_list:
+    lb.insert(END, item)
+
+sb = Scrollbar(frame)
+sb.pack(side=LEFT, fill=BOTH)
+
+lb.config(yscrollcommand=sb.set)
+sb.config(command=lb.yview)  
+
+my_entry = Entry(ws, font=("Times", 14), width=20)  
+my_entry.pack(pady=10)
+
+button_frame = Frame(ws)
+button_frame.pack(pady=10)
+
+addtask_button = Button(button_frame,
+                        text="ADD TASK",
+                        font=("Times", 14),
+                        padx=20,
+                        pady=20,
+                        command=new_task)  
+addtask_button.pack(fill=BOTH)
+
+deltask_button = Button(button_frame,
+                        text="DELETE TASK",
+                        font=("Times", 14),
+                        padx=20,
+                        pady=20,
+                        command=delete_task)  
+deltask_button.pack(fill=BOTH, expand=True, side=RIGHT)
+
+ws.mainloop()
